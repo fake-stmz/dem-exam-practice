@@ -1,4 +1,6 @@
+from django.contrib.admin.utils import model_format_dict
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class MeasureUnit(models.Model):
@@ -40,3 +42,18 @@ class Product(models.Model):
     quantity = models.IntegerField()
     description = models.TextField()
     picture = models.CharField()
+
+
+class Order(models.Model):
+    order_date = models.DateField()
+    delivery_date = models.DateField()
+    pickup_point = models.ForeignKey(PickupPoint, on_delete=models.CASCADE, related_name="order")
+    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order")
+    receive_code = models.IntegerField()
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, related_name="order")
+
+
+class ProductInOrder(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_in_order")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="product_in_order")
+    quantity = models.IntegerField()
