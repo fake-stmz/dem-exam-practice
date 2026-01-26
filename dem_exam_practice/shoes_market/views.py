@@ -10,7 +10,7 @@ def index(request):
 
     current_user = request.user
 
-    if current_user.groups.filter(name="Авторизованный клиент").exists():
+    if current_user.groups.filter(name="Авторизированный клиент").exists():
         return render(request, "index_client.html")
 
     if current_user.groups.filter(name="Менеджер").exists():
