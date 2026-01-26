@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}Главная{% endblock %}
+
 {% block content %}
-<h1>Вы вошли как {% block role %}гость{% endblock %}!</h1>
+<h1 class="uk-text-center">Вы вошли как {% block role %}гость{% endblock %}!</h1>
 {% endblock %}
