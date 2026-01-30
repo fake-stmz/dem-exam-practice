@@ -25,6 +25,9 @@ def index(request):
 
 def login_view(request):
 
+    if request.user.is_authenticated:
+        return redirect('index')
+
     if request.method == "POST":
         login_input = request.POST.get("login")
         password = request.POST.get("password")
