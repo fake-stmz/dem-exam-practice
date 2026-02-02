@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load discount %}
+
 {% block title %}Главная{% endblock %}
 
 {% block content %}
@@ -10,7 +12,8 @@
     {% block sorting %}{% endblock %}
 
     {% for product in products %}
-    <div class="uk-card uk-card-default uk-margin">
+    <div class="uk-card uk-card-default uk-margin" {% if product.discount > 15 %} style="background-color: #2E8B57;" {% endif %}
+        {% if product.quantity == 0 %} style="background-color: cyan;" {% endif %}>
         <div class="uk-card-body">
             <div class="uk-flex uk-flex-middle" style="color: black;">
                 <div>
@@ -18,11 +21,11 @@
                 </div>
 
                 <div class="uk-margin-large-left">
-                    <h3 class="uk-card-title">{{ product.category.name }} | {{ product.name }}</h3>
+                    <h3 class="uk-card-title" style="color: black;">{{ product.category.name }} | {{ product.name }}</h3>
                     <p>Описание товара: {{ product.description }}</p>
                     <p>Производитель: {{ product.producer.name }}</p>
                     <p>Поставщик: {{ product.supplier.name }}</p>
-                    <p>Цена: {{ product.price }}</p>
+                    <p>Цена: <span style="color: red;"><del>{{ product.price }} руб.</del></span> {{ product.price|discount:product.discount }} руб.</p>
                     <p>Единица измерения: {{ product.measure_unit.name }}</p>
                     <p>Количество на складе: {{ product.quantity }}</p>
                 </div>

@@ -14,7 +14,9 @@
     <header>
         <nav class="uk-navbar-container uk-navbar" uk-navbar>
             <div class="uk-navbar-left uk-margin-left">
-                <a href="/" class="uk-navbar-item uk-logo">Обувь</a>
+                <a href="/" class="uk-navbar-item uk-logo">
+                    <img src="{% static 'icon.png' %}" alt="logo" width="40" height="40"> Обувь
+                </a>
             </div>
             {% block search %}{% endblock %}
             <div class ="uk-navbar-right uk-margin-right">
