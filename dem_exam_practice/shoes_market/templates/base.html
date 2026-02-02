@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.25.6/dist/css/uikit.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.25.6/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.25.6/dist/js/uikit-icons.min.js"></script>
+    <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 </head>
 <body>
     <header>
@@ -13,6 +16,7 @@
             <div class="uk-navbar-left uk-margin-left">
                 <a href="/" class="uk-navbar-item uk-logo">Обувь</a>
             </div>
+            {% block search %}{% endblock %}
             <div class ="uk-navbar-right uk-margin-right">
                 {% if user.is_authenticated %}
                 <div class="uk-navbar-item">

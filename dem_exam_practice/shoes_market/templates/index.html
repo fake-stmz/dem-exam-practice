@@ -3,5 +3,38 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-<h1 class="uk-text-center">Вы вошли как {% block role %}гость{% endblock %}!</h1>
+<div class="uk-container uk-margin-top">
+    <h1 class="uk-text-center">Список товаров</h1>
+
+    {% block filter %}{% endblock %}
+    {% block sorting %}{% endblock %}
+
+    {% for product in products %}
+    <div class="uk-card uk-card-default uk-margin">
+        <div class="uk-card-body">
+            <div class="uk-flex uk-flex-middle" style="color: black;">
+                <div>
+                    <img src="static/product_images/{{ product.picture }}" width="300" height="300">
+                </div>
+
+                <div class="uk-margin-large-left">
+                    <h3 class="uk-card-title">{{ product.category.name }} | {{ product.name }}</h3>
+                    <p>Описание товара: {{ product.description }}</p>
+                    <p>Производитель: {{ product.producer.name }}</p>
+                    <p>Поставщик: {{ product.supplier.name }}</p>
+                    <p>Цена: {{ product.price }}</p>
+                    <p>Единица измерения: {{ product.measure_unit.name }}</p>
+                    <p>Количество на складе: {{ product.quantity }}</p>
+                </div>
+
+                <div class="uk-margin-auto-left">
+                    <p style="font-size: 24px;">Скидка: {{ product.discount }}%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="uk-text-center">Нет товаров</p>
+    {% endfor %}
+</div>
 {% endblock %}
