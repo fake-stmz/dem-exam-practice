@@ -10,11 +10,11 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.25.6/dist/js/uikit-icons.min.js"></script>
     <link rel="icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 </head>
-<body>
+<body style="font-family: Times New Roman;">
     <header>
-        <nav class="uk-navbar-container uk-navbar" uk-navbar>
+        <nav class="uk-navbar-container uk-navbar" uk-navbar style="background-color: #7FFF00;">
             <div class="uk-navbar-left uk-margin-left">
-                <a href="/" class="uk-navbar-item uk-logo">
+                <a href="/" class="uk-navbar-item uk-logo" style="font-family: Times New Roman;">
                     <img src="{% static 'icon.png' %}" alt="logo" width="40" height="40"> Обувь
                 </a>
             </div>
@@ -27,9 +27,11 @@
                 {% endif %}
                 <div class="uk-navbar-item">
                     {% if user.is_authenticated %}
-                    <a class="uk-button uk-button-primary" href="{% url 'logout' %}">Выйти</a>
+                    <a class="uk-button uk-button-primary" href="{% url 'logout' %}" style="font-family: Times New Roman; 
+                    background-color: #00FA9A; color: black; border: 1px solid black;">Выйти</a>
                     {% else %}
-                    <a class="uk-button uk-button-primary uk-margin" href="{% url 'login' %}">Войти</a>
+                    <a class="uk-button uk-button-primary uk-margin" href="{% url 'login' %}" style="font-family: Times New Roman; 
+                    background-color: #00FA9A; color: black; border: 1px solid black;">Войти</a>
                     {% endif %}
                 </div>
             </div>
