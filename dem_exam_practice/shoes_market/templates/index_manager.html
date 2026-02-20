@@ -1,2 +1,31 @@
-{% extends "index.html" %}
+{% extends "index_client.html" %}
 
+{% block search %}
+<div class="uk-navbar-center">
+    <div class="uk-navbar-item">
+        <form class="uk-search uk-search-default" style="background-color: #FFFFFF;">
+            <span uk-search-icon></span>
+            <input class="uk-search-input" type="search" id="search" placeholder="Поиск" style="font-family: Times New Roman; color: black;">
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block search_ajax %}
+<script>
+    fetch(`/search/`)
+    .then(response => response.text())
+    .then(html => resultsDiv.innerHTML = html)
+
+    const searchInput = document.getElementById('search');
+    const resultsDiv = document.getElementById('products');
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value;
+        fetch(`/search/?q=${encodeURIComponent(query)}`)
+        .then(response => response.text())
+        .then(html => resultsDiv.innerHTML = html)
+        .catch(err => console.error(err));
+    });
+</script>
+{% endblock %}

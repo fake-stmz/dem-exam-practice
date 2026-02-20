@@ -22,7 +22,7 @@
             <div class ="uk-navbar-right uk-margin-right">
                 {% if user.is_authenticated %}
                 <div class="uk-navbar-item">
-                    <p>{{ user.first_name }}</p>
+                    <p style="font-family: Times New Roman; color: black;">{{ user.first_name }}</p>
                 </div>
                 {% endif %}
                 <div class="uk-navbar-item">
@@ -41,5 +41,7 @@
     <main>
         {% block content %}{% endblock %}
     </main>
+
+    {% block search_ajax %}{% endblock %}
 </body>
 </html>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Q
 from .models import Product
 
 
@@ -31,6 +32,25 @@ def index(request):
         return render(request, "index_admin.html", context)
 
     return render(request, "index.html", context)
+
+
+def search_view(request):
+
+    query = request.GET.get("q")
+
+    products = (Product.objects.all()
+                .select_related("category")
+                .select_related("supplier")
+                .select_related("producer")
+                .select_related("measure_unit"))
+
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    return render(request, "search.html", { "products": products })
 
 
 def login_view(request):
