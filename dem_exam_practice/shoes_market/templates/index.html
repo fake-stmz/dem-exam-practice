@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% load discount %}
-
 {% block title %}Главная{% endblock %}
 
 {% block content %}
@@ -17,7 +15,7 @@
         {% if product.quantity == 0 %} style="background-color: cyan;" {% endif %}>
             <div class="uk-flex uk-flex-middle" style="color: black;">
                 <div>
-                    <img src="static/product_images/{{ product.picture }}" width="300" height="300">
+                    <img src="{{ product.picture.url }}" width="300" height="300">
                 </div>
 
                 <div class="uk-margin-large-left uk-width-1-2">
@@ -25,7 +23,7 @@
                     <p>Описание товара: {{ product.description }}</p>
                     <p>Производитель: {{ product.producer.name }}</p>
                     <p>Поставщик: {{ product.supplier.name }}</p>
-                    <p>Цена: <span style="color: red;"><del>{{ product.price }} руб.</del></span> {{ product.price|discount:product.discount }} руб.</p>
+                    <p>Цена: <span style="color: red;"><del>{{ product.price }} руб.</del></span> {{ product.discount_price }} руб.</p>
                     <p>Единица измерения: {{ product.measure_unit.name }}</p>
                     <p>Количество на складе: {{ product.quantity }}</p>
                 </div>
