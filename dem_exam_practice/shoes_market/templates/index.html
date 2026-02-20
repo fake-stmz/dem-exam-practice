@@ -6,9 +6,19 @@
 <div class="uk-container uk-margin-top">
     <h1 class="uk-text-center" style="font-family: Times New Roman;">Список товаров</h1>
 
-    {% block filter %}{% endblock %}
+    {% block filter_sorting %}{% endblock %}
 
     <div id="products"></div>
 
 </div>
+{% endblock %}
+
+{% block search_ajax %}
+<script>
+    const resultsDiv = document.getElementById('products');
+
+    fetch(`/search/`)
+    .then(response => response.text())
+    .then(html => resultsDiv.innerHTML = html)
+</script>
 {% endblock %}

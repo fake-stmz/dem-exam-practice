@@ -11,21 +11,58 @@
 </div>
 {% endblock %}
 
+{% block filter_sorting %}
+<div class="uk-card uk-card-default uk-card-body uk-margin uk-flex">
+    <div class="uk-width-1-2">
+        <label class="uk-form-label" for="quantity-sorting">Сортировка по количеству</label>
+        <select class="uk-select" id="quantity-sorting">
+            <option value="desc">По убыванию</option>
+            <option value="asc">По возрастанию</option>
+        </select>
+    </div>
+
+    <div class="uk-width-1-2 uk-margin-left">
+        <label class="uk-form-label" for="supplier-filter">Поставщик</label>
+        <select class="uk-select" id="supplier-filter">
+            <option value="">Все поставщики</option>
+            {% for supplier in suppliers %}
+            <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+{% endblock %}
+
 {% block search_ajax %}
 <script>
-    fetch(`/search/`)
-    .then(response => response.text())
-    .then(html => resultsDiv.innerHTML = html)
-
     const searchInput = document.getElementById('search');
+    const sortSelect = document.getElementById('quantity-sorting');
+    const filterSelect = document.getElementById('supplier-filter');
     const resultsDiv = document.getElementById('products');
 
-    searchInput.addEventListener('input', function() {
-        const query = this.value;
-        fetch(`/search/?q=${encodeURIComponent(query)}`)
-        .then(response => response.text())
-        .then(html => resultsDiv.innerHTML = html)
-        .catch(err => console.error(err));
-    });
+
+    function updateResults() {
+        const query = searchInput.value.trim();
+        const sort = sortSelect.value;
+        const filter = filterSelect.value;
+
+        const params = new URLSearchParams();
+        if (query) params.append('q', query);
+        if (sort) params.append('sort', sort);
+        if (filter) params.append('filter', filter);
+
+        const url = `/search/${params.toString() ? '?' + params.toString() : ''}`;
+
+        fetch(url)
+            .then(response => response.text())
+            .then(html => resultsDiv.innerHTML = html)
+            .catch(err => console.error('Ошибка загрузки:', err));
+    }
+
+    updateResults();
+
+    searchInput.addEventListener('input', updateResults);
+    sortSelect.addEventListener('change', updateResults);
+    filterSelect.addEventListener('change', updateResults);
 </script>
 {% endblock %}
