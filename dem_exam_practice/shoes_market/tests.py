@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import Product, MeasureUnit, Supplier, Producer, Category
 from .views import get_filtered_products
+from django.urls import reverse
 
 
 class ProductDiscountPriceTest(TestCase):
@@ -73,3 +74,32 @@ class ProductSearchFilterTests(TestCase):
     def test_sort_by_quantity_asc(self):
         products = get_filtered_products(search_query='', quantity_sorting='asc', supplier_filter='')
         self.assertEqual(list(products.values_list('quantity', flat=True)), [5, 10, 15])
+
+
+class SearchViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Аналогично предыдущему набору данных
+        unit = MeasureUnit.objects.create(name='шт')
+        supplier = Supplier.objects.create(name='Test Supplier')
+        producer = Producer.objects.create(name='Test Producer')
+        category = Category.objects.create(name='Test Category')
+        Product.objects.create(article='1', name='Test1', measure_unit=unit, price=100,
+                               supplier=supplier, producer=producer, category=category,
+                               discount=0, quantity=10, description='')
+        Product.objects.create(article='2', name='Test2', measure_unit=unit, price=200,
+                               supplier=supplier, producer=producer, category=category,
+                               discount=0, quantity=5, description='')
+
+    def test_search_view_url_exists_at_desired_location(self):
+        response = self.client.get('/search/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_search_view_uses_correct_template(self):
+        response = self.client.get(reverse('search'))
+        self.assertTemplateUsed(response, 'search.html')
+
+    def test_search_view_context_contains_products(self):
+        response = self.client.get(reverse('search'))
+        self.assertIn('products', response.context)
+        self.assertEqual(len(response.context['products']), 2)
