@@ -32,16 +32,19 @@ def index(request):
 
 def search_view(request):
 
-    products = (Product.objects.all()
-                .select_related("category")
-                .select_related("supplier")
-                .select_related("producer")
-                .select_related("measure_unit"))
-
     search_query = request.GET.get("q")
     quantity_sorting = request.GET.get("sort")
     supplier_filter = request.GET.get("filter")
 
+    products = get_filtered_products(search_query, quantity_sorting, supplier_filter)
+
+    return render(request, "search.html", { "products": products })
+
+
+def get_filtered_products(search_query='', quantity_sorting='', supplier_filter=None):
+    products = (Product.objects.all()
+                .select_related("category","supplier", "producer", "measure_unit"))
+    
     if quantity_sorting == 'asc':
         products = products.order_by("quantity")
     else:
@@ -58,8 +61,8 @@ def search_view(request):
             Q(producer__name__icontains=search_query) |
             Q(category__name__icontains=search_query)
         )
-
-    return render(request, "search.html", { "products": products })
+    
+    return products
 
 
 def login_view(request):
