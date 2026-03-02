@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
@@ -68,6 +69,9 @@ def get_filtered_products(search_query='', quantity_sorting='', supplier_filter=
 
 
 def add_edit_view(request, product_article = None):
+
+    if not request.user.groups.filter(name="Администратор").exists():
+        redirect('index')
 
     categories = Category.objects.all()
     measure_units = MeasureUnit.objects.all()
