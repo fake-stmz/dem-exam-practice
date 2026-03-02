@@ -114,8 +114,13 @@ def add_edit_view(request, product_article = None):
 
 
 def delete_view(request, product_article):
+
+    if not request.user.groups.filter(name="Администратор").exists():
+        redirect('index')
+
     product = Product.objects.get(article=product_article)
     product.delete()
+
     return redirect("index")
 
 
