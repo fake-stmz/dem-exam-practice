@@ -1,5 +1,5 @@
 {% for product in products %}
-    <div class="uk-card uk-card-default uk-margin" style="background-color: #7FFF00;">
+    <div class="uk-card uk-card-default uk-margin" style="border: 2px solid #7FFF00;">
         <div class="uk-card-body" {% if product.discount > 15 %} style="background-color: #2E8B57;" {% endif %}
         {% if product.quantity == 0 %} style="background-color: cyan;" {% endif %}>
             <div class="uk-flex uk-flex-middle" style="color: black;">
