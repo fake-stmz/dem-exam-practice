@@ -38,10 +38,7 @@ def search_view(request):
 
     products = get_filtered_products(search_query, quantity_sorting, supplier_filter)
 
-    is_admin = False
-
-    if request.user.groups.filter(name="Администратор").exists():
-        is_admin = True
+    is_admin = True if request.user.groups.filter(name="Администратор").exists() else False
 
     return render(request, "search.html", { "products": products, "is_admin": is_admin })
 
@@ -70,7 +67,7 @@ def get_filtered_products(search_query='', quantity_sorting='', supplier_filter=
     return products
 
 
-def add_edit_view(request, product_id = None):
+def add_edit_view(request, product_article = None):
 
     categories = Category.objects.all()
     measure_units = MeasureUnit.objects.all()
@@ -105,6 +102,9 @@ def add_edit_view(request, product_id = None):
         "producers": producers,
         "suppliers": suppliers,
     }
+
+    if product_article:
+        context["product"] = Product.objects.get(article=product_article)
 
     return render(request, "add_edit.html", context)
 

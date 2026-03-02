@@ -21,6 +21,12 @@
                     <p style="font-size: 24px;">Скидка: {{ product.discount }}%</p>
                 </div>
             </div>
+            {% if is_admin %}
+            <div class="uk-margin-top">
+                <a href="{% url 'edit' product.article %}" class="uk-button uk-width-1-1" style="font-family: Times New Roman;
+                    background-color: #00FA9A; color: black; border: 1px solid black;">Редактировать</a>
+            </div>
+            {% endif %}
         </div>
     </div>
 {% empty %}

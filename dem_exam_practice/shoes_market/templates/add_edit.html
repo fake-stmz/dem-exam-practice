@@ -8,6 +8,14 @@
 
     <form class="uk-card uk-card-body uk-card-default uk-form-stacked uk-margin" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
+        {% if product %}
+        <div class="uk-margin-bottom">
+            <label class="uk-form-label" for="current-picture">Текущее изображение:</label>
+            <img src="{{ product.picture.url }}" width="200" height="200" id="current-picture">
+        </div>
+        {% endif %}
+
         <div uk-form-custom="target: true">
             <input type="file" accept="image/*" name="photo">
             <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите изображение" disabled>
@@ -16,42 +24,42 @@
         <div class="uk-margin">
             <label class="uk-form-label" for="article">Артикул</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="article" type="text" name="article" placeholder="Введите артикул" required>
+                <input class="uk-input" id="article" type="text" name="article" placeholder="Введите артикул" value="{{ product.article }}" required>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="name">Название</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="name" type="text" name="name" placeholder="Введите название" required>
+                <input class="uk-input" id="name" type="text" name="name" placeholder="Введите название" value="{{ product.name }}" required>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="price">Цена (руб.)</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="price" type="number" step="0.01" name="price" placeholder="Введите цену" required>
+                <input class="uk-input" id="price" type="number" step="0.01" name="price" placeholder="Введите цену" value="{{ product.price }}" required>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="discount">Скидка (%)</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="discount" type="number" name="discount" placeholder="Введите скидку" required>
+                <input class="uk-input" id="discount" type="number" name="discount" placeholder="Введите скидку" value="{{ product.discount }}" required>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="quantity">Количество на складе</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="quantity" type="number" name="quantity" placeholder="Введите количество" required>
+                <input class="uk-input" id="quantity" type="number" name="quantity" placeholder="Введите количество" value="{{ product.quantity }}" required>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="description">Описание</label>
             <div class="uk-form-controls">
-                <textarea class="uk-textarea" rows="3" id="description" name="description" placeholder="Введите описание" required></textarea>
+                <textarea class="uk-textarea" rows="3" id="description" name="description" placeholder="Введите описание" required>{{ product.description }}</textarea>
             </div>
         </div>
 
@@ -60,7 +68,7 @@
             <div class="uk-form-controls">
                 <select class="uk-select" id="category" name="category">
                     {% for category in categories %}
-                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    <option value="{{ category.id }}" {% if product.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -71,7 +79,7 @@
             <div class="uk-form-controls">
                 <select class="uk-select" id="mes_unit" name="mes_unit">
                     {% for measure_unit in measure_units %}
-                    <option value="{{ measure_unit.id }}">{{ measure_unit.name }}</option>
+                    <option value="{{ measure_unit.id }}" {% if product.measure_unit.id == measure_unit.id %}selected{% endif %}>{{ measure_unit.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -82,7 +90,7 @@
             <div class="uk-form-controls">
                 <select class="uk-select" id="producer" name="producer">
                     {% for producer in producers %}
-                    <option value="{{ producer.id }}">{{ producer.name }}</option>
+                    <option value="{{ producer.id }}" {% if product.producer.id == producer.id %}selected{% endif %}>{{ producer.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -93,7 +101,7 @@
             <div class="uk-form-controls">
                 <select class="uk-select" id="supplier" name="supplier">
                     {% for supplier in suppliers %}
-                    <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                    <option value="{{ supplier.id }}" {% if product.supplier.id == supplier.id %}selected{% endif %}>{{ supplier.name }}</option>
                     {% endfor %}
                 </select>
             </div>
