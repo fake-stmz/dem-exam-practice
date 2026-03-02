@@ -109,6 +109,12 @@ def add_edit_view(request, product_article = None):
     return render(request, "add_edit.html", context)
 
 
+def delete_view(request, product_article):
+    product = Product.objects.get(article=product_article)
+    product.delete()
+    return redirect("index")
+
+
 def login_view(request):
 
     if request.user.is_authenticated:

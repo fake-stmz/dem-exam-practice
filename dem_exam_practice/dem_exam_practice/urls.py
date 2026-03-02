@@ -27,7 +27,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('search/', views.search_view, name="search"),
     path('add/', views.add_edit_view, name="add"),
-    path('edit/<str:product_article>', views.add_edit_view, name="edit")
+    path('edit/<str:product_article>', views.add_edit_view, name="edit"),
+    path('delete/<str:product_article>', views.delete_view, name="delete"),
 ]
 
 if settings.DEBUG:

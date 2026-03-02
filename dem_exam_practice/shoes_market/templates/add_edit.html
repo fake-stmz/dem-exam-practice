@@ -9,15 +9,13 @@
     <form class="uk-card uk-card-body uk-card-default uk-form-stacked uk-margin" method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        {% if product %}
         <div class="uk-margin-bottom">
             <label class="uk-form-label" for="current-picture">Текущее изображение:</label>
-            <img src="{{ product.picture.url }}" width="200" height="200" id="current-picture">
+            <img src="{% if product %}{{ product.picture.url }}{% else %}/media/product_images/picture.png{% endif %}" width="200" height="200" id="current-picture">
         </div>
-        {% endif %}
 
         <div uk-form-custom="target: true">
-            <input type="file" accept="image/*" name="photo">
+            <input type="file" accept="image/*" name="photo" onchange="changePreview(this);">
             <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите изображение" disabled>
         </div>
 
@@ -113,4 +111,23 @@
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function changePreview(input){
+        var file = input.files[0];
+        var previewImg = document.getElementById("current-picture");
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function(){
+                previewImg.src = reader.result;
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
 {% endblock %}
