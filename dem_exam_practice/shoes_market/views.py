@@ -90,9 +90,9 @@ def add_edit_view(request, product_id = None):
         new_product.producer = Producer.objects.get(id=request.POST.get("producer"))
         new_product.supplier = Supplier.objects.get(id=request.POST.get("supplier"))
 
-        image_file = request.FILES.get("image")
-        if image_file:
-            new_product.picture = image_file
+        photo_file = request.FILES.get("photo")
+        if photo_file:
+            new_product.picture = photo_file
 
         new_product.save()
 

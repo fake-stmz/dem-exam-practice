@@ -6,7 +6,7 @@
 <div class="uk-container uk-margin-top">
     <h1 class="uk-text-center" style="font-family: Times New Roman;">Добавление/редактирование товара</h1>
 
-    <form class="uk-card uk-card-body uk-card-default uk-form-stacked uk-margin" method="post">
+    <form class="uk-card uk-card-body uk-card-default uk-form-stacked uk-margin" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div uk-form-custom="target: true">
             <input type="file" accept="image/*" name="photo">
