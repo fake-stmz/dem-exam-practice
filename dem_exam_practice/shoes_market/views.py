@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
-from .models import Product, Supplier
+from .models import Product, Supplier, Category, Producer, MeasureUnit
 
 
 def index(request):
@@ -38,13 +38,18 @@ def search_view(request):
 
     products = get_filtered_products(search_query, quantity_sorting, supplier_filter)
 
-    return render(request, "search.html", { "products": products })
+    is_admin = False
+
+    if request.user.groups.filter(name="Администратор").exists():
+        is_admin = True
+
+    return render(request, "search.html", { "products": products, "is_admin": is_admin })
 
 
 def get_filtered_products(search_query='', quantity_sorting='', supplier_filter=None):
     products = (Product.objects.all()
                 .select_related("category","supplier", "producer", "measure_unit"))
-    
+
     if quantity_sorting == 'asc':
         products = products.order_by("quantity")
     else:
@@ -63,6 +68,45 @@ def get_filtered_products(search_query='', quantity_sorting='', supplier_filter=
         )
     
     return products
+
+
+def add_edit_view(request, product_id = None):
+
+    categories = Category.objects.all()
+    measure_units = MeasureUnit.objects.all()
+    producers = Producer.objects.all()
+    suppliers = Supplier.objects.all()
+
+    if request.method == "POST":
+        new_product = Product()
+        new_product.article = request.POST.get("article")
+        new_product.name = request.POST.get("name")
+        new_product.price = request.POST.get("price")
+        new_product.discount = request.POST.get("discount")
+        new_product.quantity = request.POST.get("quantity")
+        new_product.description = request.POST.get("description")
+        new_product.category = Category.objects.get(id=request.POST.get("category"))
+        new_product.measure_unit = MeasureUnit.objects.get(id=request.POST.get("mes_unit"))
+        new_product.producer = Producer.objects.get(id=request.POST.get("producer"))
+        new_product.supplier = Supplier.objects.get(id=request.POST.get("supplier"))
+
+        image_file = request.FILES.get("image")
+        if image_file:
+            new_product.picture = image_file
+
+        new_product.save()
+
+        return redirect("index")
+
+
+    context = {
+        "categories": categories,
+        "measure_units": measure_units,
+        "producers": producers,
+        "suppliers": suppliers,
+    }
+
+    return render(request, "add_edit.html", context)
 
 
 def login_view(request):

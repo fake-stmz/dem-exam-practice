@@ -41,7 +41,7 @@ class Product(models.Model):
     discount = models.IntegerField()
     quantity = models.IntegerField()
     description = models.TextField()
-    picture = models.ImageField(default="picture.png", upload_to="product_images/")
+    picture = models.ImageField(default="product_images/picture.png", upload_to="product_images")
 
     def discount_price(self):
         return round(self.price - self.price * self.discount * 0.01, 2)

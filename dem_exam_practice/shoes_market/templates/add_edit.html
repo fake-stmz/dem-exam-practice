@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %} Добавление и редактирование {% endblock %}
+
+{% block content %}
+<div class="uk-container uk-margin-top">
+    <h1 class="uk-text-center" style="font-family: Times New Roman;">Добавление/редактирование товара</h1>
+
+    <form class="uk-card uk-card-body uk-card-default uk-form-stacked uk-margin" method="post">
+        {% csrf_token %}
+        <div uk-form-custom="target: true">
+            <input type="file" accept="image/*" name="photo">
+            <input class="uk-input uk-form-width-medium" type="text" placeholder="Выберите изображение" disabled>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="article">Артикул</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" id="article" type="text" name="article" placeholder="Введите артикул" required>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="name">Название</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" id="name" type="text" name="name" placeholder="Введите название" required>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="price">Цена (руб.)</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" id="price" type="number" step="0.01" name="price" placeholder="Введите цену" required>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="discount">Скидка (%)</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" id="discount" type="number" name="discount" placeholder="Введите скидку" required>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="quantity">Количество на складе</label>
+            <div class="uk-form-controls">
+                <input class="uk-input" id="quantity" type="number" name="quantity" placeholder="Введите количество" required>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="description">Описание</label>
+            <div class="uk-form-controls">
+                <textarea class="uk-textarea" rows="3" id="description" name="description" placeholder="Введите описание" required></textarea>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="category">Категория</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" id="category" name="category">
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="mes_unit">Единицы измерения</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" id="mes_unit" name="mes_unit">
+                    {% for measure_unit in measure_units %}
+                    <option value="{{ measure_unit.id }}">{{ measure_unit.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="producer">Производитель</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" id="producer" name="producer">
+                    {% for producer in producers %}
+                    <option value="{{ producer.id }}">{{ producer.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <label class="uk-form-label" for="supplier">Поставщик</label>
+            <div class="uk-form-controls">
+                <select class="uk-select" id="supplier" name="supplier">
+                    {% for supplier in suppliers %}
+                    <option value="{{ supplier.id }}">{{ supplier.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="uk-margin">
+            <button class="uk-button uk-button-default uk-width-1-1" style="font-family: Times New Roman;
+                    background-color: #00FA9A; color: black; border: 1px solid black;">Сохранить</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

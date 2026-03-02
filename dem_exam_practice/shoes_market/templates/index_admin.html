@@ -1,2 +1,7 @@
 {% extends "index_manager.html" %}
 
+{% block add_product %}
+<a class="uk-button uk-button-primary uk-width-1-1 uk-margin-bottom" style="font-family: Times New Roman;
+                    background-color: #00FA9A; color: black; border: 1px solid black;"
+                    href="{% url 'add' %}">Добавить продкут</a>
+{% endblock %}
