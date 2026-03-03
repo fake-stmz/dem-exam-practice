@@ -72,7 +72,7 @@ def get_filtered_products(search_query='', quantity_sorting='', supplier_filter=
 def add_edit_product_view(request, product_article = None):
 
     if not request.user.groups.filter(name="Администратор").exists():
-        redirect('index')
+        return redirect('index')
 
     categories = Category.objects.all()
     measure_units = MeasureUnit.objects.all()
@@ -117,7 +117,7 @@ def add_edit_product_view(request, product_article = None):
 def delete_product_view(request, product_article):
 
     if not request.user.groups.filter(name="Администратор").exists():
-        redirect('index')
+        return redirect('index')
 
     product = Product.objects.get(article=product_article)
     product.delete()
@@ -144,7 +144,7 @@ def orders_view(request):
 def add_edit_order_view(request, product_in_order_id = None):
 
     if not request.user.groups.filter(name="Администратор").exists():
-        redirect('index')
+        return redirect('index')
 
     products = Product.objects.all()
     statuses = Status.objects.all()
@@ -188,7 +188,7 @@ def add_edit_order_view(request, product_in_order_id = None):
 def delete_order_view(request, product_in_order_id):
 
     if not request.user.groups.filter(name="Администратор").exists():
-        redirect('index')
+        return redirect('index')
 
     product_in_order = ProductInOrder.objects.get(id=product_in_order_id)
     order = product_in_order.order
