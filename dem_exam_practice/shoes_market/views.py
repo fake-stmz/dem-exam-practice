@@ -185,8 +185,21 @@ def add_edit_order_view(request, product_in_order_id = None):
     return render(request, "add_edit_order.html", context)
 
 
-def delete_order_view(request, order_article):
-    pass
+def delete_order_view(request, product_in_order_id):
+
+    if not request.user.groups.filter(name="Администратор").exists():
+        redirect('index')
+
+    product_in_order = ProductInOrder.objects.get(id=product_in_order_id)
+    order = product_in_order.order
+
+    product_in_order.delete()
+
+    if order.product_in_order.count() == 0:
+        order.delete()
+
+    return redirect("orders")
+
 
 
 def login_view(request):
