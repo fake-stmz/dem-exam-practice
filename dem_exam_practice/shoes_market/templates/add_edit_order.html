@@ -14,7 +14,7 @@
             <div class="uk-form-controls">
                 <select class="uk-select" id="article" name="article">
                     {% for product in products %}
-                    <option value="{{ product.article }}">{{ product.article }} | {{ product.name }}</option>
+                    <option value="{{ product.article }}" {% if order.product.article == product.article %}selected{% endif %}>{{ product.article }} | {{ product.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -25,7 +25,7 @@
             <div class="uk-form-controls">
                 <select class="uk-select" id="client" name="client">
                     {% for client in clients %}
-                    <option value="{{ client.id }}">{{ client.first_name }}</option>
+                    <option value="{{ client.id }}" {% if order.order.client.id == client.id %}selected{% endif %}>{{ client.first_name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -36,7 +36,7 @@
             <div class="uk-form-controls">
                 <select class="uk-select" id="status" name="status">
                     {% for status in statuses %}
-                    <option value="{{ status.id }}">{{ status.name }}</option>
+                    <option value="{{ status.id }}" {% if order.order.status.id == status.id %}selected{% endif %}>{{ status.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -47,7 +47,7 @@
             <div class="uk-form-controls">
                 <select class="uk-select" id="pickup_point" name="pickup_point">
                     {% for pickup_point in pickup_points %}
-                    <option value="{{ pickup_point.id }}">{{ pickup_point.postcode }}, {{ pickup_point.city }}, {{ pickup_point.street }}, {{ pickup_point.house }}</option>
+                    <option value="{{ pickup_point.id }}" {% if order.order.pickup_point.id == pickup_point.id %}selected{% endif %}>{{ pickup_point.postcode }}, {{ pickup_point.city }}, {{ pickup_point.street }}, {{ pickup_point.house }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -56,28 +56,28 @@
         <div class="uk-margin">
             <label class="uk-form-label" for="order_date">Дата заказа</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="order_date" type="date" name="order_date" required>
+                <input class="uk-input" id="order_date" type="date" name="order_date" value="{{ order.order.order_date|date:'Y-m-d' }}" required>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="delivery_date">Дата доставки</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="delivery_date" type="date" name="delivery_date" required>
+                <input class="uk-input" id="delivery_date" type="date" name="delivery_date" value="{{ order.order.delivery_date|date:'Y-m-d' }}" required>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="quantity">Количество</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="quantity" type="number" name="quantity" placeholder="Введите количество" required>
+                <input class="uk-input" id="quantity" type="number" name="quantity" placeholder="Введите количество" value="{{ order.quantity }}" required>
             </div>
         </div>
 
         <div class="uk-margin">
             <label class="uk-form-label" for="receive_code">Код выдачи</label>
             <div class="uk-form-controls">
-                <input class="uk-input" id="receive_code" type="number" name="receive_code" placeholder="Введите количество" required>
+                <input class="uk-input" id="receive_code" type="number" name="receive_code" placeholder="Введите код выдачи" value="{{ order.order.receive_code }}" required>
             </div>
         </div>
 

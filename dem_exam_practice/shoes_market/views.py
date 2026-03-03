@@ -127,7 +127,7 @@ def delete_product_view(request, product_article):
 
 def orders_view(request):
 
-    orders = ProductInOrder.objects.all().select_related("order", "product")
+    orders = ProductInOrder.objects.all().select_related("order", "product").order_by("-order__order_date")
 
     context = {
         "orders": orders
@@ -152,7 +152,9 @@ def add_edit_order_view(request, product_in_order_id = None):
     clients = User.objects.all()
 
     if request.method == "POST":
-        new_order = Order()
+        new_product_in_order = ProductInOrder() if not product_in_order_id else ProductInOrder.objects.get(id=product_in_order_id)
+
+        new_order = Order() if not product_in_order_id else new_product_in_order.order
         new_order.order_date = request.POST.get("order_date")
         new_order.delivery_date = request.POST.get("delivery_date")
         new_order.pickup_point = PickupPoint.objects.get(id=request.POST.get("pickup_point"))
@@ -162,7 +164,6 @@ def add_edit_order_view(request, product_in_order_id = None):
 
         new_order.save()
 
-        new_product_in_order = ProductInOrder()
         new_product_in_order.product = Product.objects.get(article=request.POST.get("article"))
         new_product_in_order.order = new_order
         new_product_in_order.quantity = request.POST.get("quantity")
@@ -178,7 +179,14 @@ def add_edit_order_view(request, product_in_order_id = None):
         "clients": clients
     }
 
+    if product_in_order_id:
+        context["order"] = ProductInOrder.objects.get(id=product_in_order_id)
+
     return render(request, "add_edit_order.html", context)
+
+
+def delete_order_view(request, order_article):
+    pass
 
 
 def login_view(request):
