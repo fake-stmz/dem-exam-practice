@@ -1,5 +1,12 @@
 {% extends "index_client.html" %}
 
+{% block orders %}
+<div class="uk-navbar-item">
+    <a class="uk-button uk-button-primary" style="font-family: Times New Roman;
+                    background-color: #00FA9A; color: black; border: 1px solid black;" href="{% url 'orders' %}">Заказы</a>
+</div>
+{% endblock %}
+
 {% block search %}
 <div class="uk-navbar-center">
     <div class="uk-navbar-item">

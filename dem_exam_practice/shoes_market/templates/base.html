@@ -17,6 +17,7 @@
                 <a href="/" class="uk-navbar-item uk-logo" style="font-family: Times New Roman;">
                     <img src="{% static 'icon.png' %}" alt="logo" width="40" height="40"> Обувь
                 </a>
+                {% block orders %}{% endblock %}
             </div>
             {% block search %}{% endblock %}
             <div class ="uk-navbar-right uk-margin-right">

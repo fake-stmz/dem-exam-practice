@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Заказы{% endblock %}
+
+{% block content %}
+<div class="uk-container uk-margin-top">
+    <h1 class="uk-text-center" style="font-family: Times New Roman;">Список заказов</h1>
+
+    {% for order in orders %}
+        <div class="uk-card uk-card-default uk-margin" style="border: 2px solid #7FFF00;">
+            <div class="uk-card-body">
+                <div class="uk-flex uk-flex-middle" style="color: black;">
+                    <div class="uk-width-1-2">
+                        <h3 class="uk-card-title" style="color: black; font-family: Times New Roman;">{{ order.product.article }}</h3>
+                        <p>Статус: {{ order.order.status.name }}</p>
+                        <p>Адрес пункта выдачи: {{ order.order.pickup_point.postcode }},
+                            {{ order.order.pickup_point.city }}, {{ order.order.pickup_point.street }},
+                            {{ order.order.pickup_point.house }}</p>
+                        <p class="uk-margin-remove-bottom">Дата заказа: {{ order.order.order_date|date:"d.m.Y" }}</p>
+                    </div>
+
+                    <div class="uk-margin-auto-left">
+                        <p>Дата доставки: {{ order.order.delivery_date|date:"d.m.Y" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="uk-text-center">Нет заказов</p>
+    {% endfor %}
+
+</div>
+{% endblock %}

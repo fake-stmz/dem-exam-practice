@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
-from .models import Product, Supplier, Category, Producer, MeasureUnit
+from .models import Product, Supplier, Category, Producer, MeasureUnit, ProductInOrder
 
 
 def index(request):
@@ -68,7 +68,7 @@ def get_filtered_products(search_query='', quantity_sorting='', supplier_filter=
     return products
 
 
-def add_edit_view(request, product_article = None):
+def add_edit_product_view(request, product_article = None):
 
     if not request.user.groups.filter(name="Администратор").exists():
         redirect('index')
@@ -113,7 +113,7 @@ def add_edit_view(request, product_article = None):
     return render(request, "add_edit.html", context)
 
 
-def delete_view(request, product_article):
+def delete_product_view(request, product_article):
 
     if not request.user.groups.filter(name="Администратор").exists():
         redirect('index')
@@ -122,6 +122,22 @@ def delete_view(request, product_article):
     product.delete()
 
     return redirect("index")
+
+
+def orders_view(request):
+
+    orders = ProductInOrder.objects.all().select_related("order", "product")
+
+    context = {
+        "orders": orders
+    }
+
+    if request.user.groups.filter(name="Администратор").exists():
+        return render(request, "orders_admin.html", context)
+    elif request.user.groups.filter(name="Менеджер").exists():
+        return render(request, "orders.html", context)
+    else:
+        return redirect("index")
 
 
 def login_view(request):

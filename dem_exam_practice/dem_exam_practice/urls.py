@@ -26,9 +26,10 @@ urlpatterns = [
     path('login/', views.login_view, name="login"),
     path('logout/', views.logout_view, name="logout"),
     path('search/', views.search_view, name="search"),
-    path('add/', views.add_edit_view, name="add"),
-    path('edit/<str:product_article>', views.add_edit_view, name="edit"),
-    path('delete/<str:product_article>', views.delete_view, name="delete"),
+    path('add_product/', views.add_edit_product_view, name="add_product"),
+    path('edit_product/<str:product_article>', views.add_edit_product_view, name="edit_product"),
+    path('delete_product/<str:product_article>', views.delete_product_view, name="delete_product"),
+    path('orders/', views.orders_view, name="orders"),
 ]
 
 if settings.DEBUG:
