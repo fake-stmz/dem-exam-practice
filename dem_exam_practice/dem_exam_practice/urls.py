@@ -30,6 +30,8 @@ urlpatterns = [
     path('edit_product/<str:product_article>', views.add_edit_product_view, name="edit_product"),
     path('delete_product/<str:product_article>', views.delete_product_view, name="delete_product"),
     path('orders/', views.orders_view, name="orders"),
+    path('add_order/', views.add_edit_order_view, name="add_order"),
+    path('edit_order/<str:order_article>', views.add_edit_order_view, name="edit_order"),
 ]
 
 if settings.DEBUG:

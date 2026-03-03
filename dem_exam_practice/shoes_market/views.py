@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.db.models import Q
-from .models import Product, Supplier, Category, Producer, MeasureUnit, ProductInOrder
+from .models import Product, Supplier, Category, Producer, MeasureUnit, ProductInOrder, Status, PickupPoint, Order
 
 
 def index(request):
@@ -79,7 +80,7 @@ def add_edit_product_view(request, product_article = None):
     suppliers = Supplier.objects.all()
 
     if request.method == "POST":
-        new_product = Product()
+        new_product = Product() if not product_article else Product.objects.get(article=product_article)
         new_product.article = request.POST.get("article")
         new_product.name = request.POST.get("name")
         new_product.price = request.POST.get("price")
@@ -138,6 +139,46 @@ def orders_view(request):
         return render(request, "orders.html", context)
     else:
         return redirect("index")
+
+
+def add_edit_order_view(request, product_in_order_id = None):
+
+    if not request.user.groups.filter(name="Администратор").exists():
+        redirect('index')
+
+    products = Product.objects.all()
+    statuses = Status.objects.all()
+    pickup_points = PickupPoint.objects.all()
+    clients = User.objects.all()
+
+    if request.method == "POST":
+        new_order = Order()
+        new_order.order_date = request.POST.get("order_date")
+        new_order.delivery_date = request.POST.get("delivery_date")
+        new_order.pickup_point = PickupPoint.objects.get(id=request.POST.get("pickup_point"))
+        new_order.client = User.objects.get(id=request.POST.get("client"))
+        new_order.receive_code = request.POST.get("receive_code")
+        new_order.status = Status.objects.get(id=request.POST.get("status"))
+
+        new_order.save()
+
+        new_product_in_order = ProductInOrder()
+        new_product_in_order.product = Product.objects.get(article=request.POST.get("article"))
+        new_product_in_order.order = new_order
+        new_product_in_order.quantity = request.POST.get("quantity")
+
+        new_product_in_order.save()
+
+        return redirect("orders")
+
+    context = {
+        "products": products,
+        "statuses": statuses,
+        "pickup_points": pickup_points,
+        "clients": clients
+    }
+
+    return render(request, "add_edit_order.html", context)
 
 
 def login_view(request):

@@ -6,6 +6,8 @@
 <div class="uk-container uk-margin-top">
     <h1 class="uk-text-center" style="font-family: Times New Roman;">Список заказов</h1>
 
+    {% block add_button %}{% endblock %}
+
     {% for order in orders %}
         <div class="uk-card uk-card-default uk-margin" style="border: 2px solid #7FFF00;">
             <div class="uk-card-body">
@@ -23,6 +25,7 @@
                         <p>Дата доставки: {{ order.order.delivery_date|date:"d.m.Y" }}</p>
                     </div>
                 </div>
+                {% block edit_delete %}{% endblock %}
             </div>
         </div>
     {% empty %}
